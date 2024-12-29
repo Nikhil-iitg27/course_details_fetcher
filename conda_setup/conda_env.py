@@ -1,6 +1,6 @@
 import os
 import argparse
-from conda_requirements import get_requirements
+from .conda_requirements import get_requirements
 
 def create_env(name, filepath):
     
