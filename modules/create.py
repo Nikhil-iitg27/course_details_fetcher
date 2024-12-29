@@ -1,6 +1,7 @@
 import os
 import time
 
+
 def create_folder_structure(dir, courses, sem):
     """creates the folder substructure for a particular semester
 

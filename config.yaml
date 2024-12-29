@@ -5,3 +5,4 @@ VARS:
   valid_semesters: []
   semesters: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
   url: "https://www.iitg.ac.in/acad/CourseStructure/Btech2018/"
+  

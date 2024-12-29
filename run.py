@@ -3,6 +3,7 @@ import argparse
 from modules import *
 from tqdm import tqdm
 
+
 def main():
     # get configuration
     with open('config.yaml', 'r') as file:
