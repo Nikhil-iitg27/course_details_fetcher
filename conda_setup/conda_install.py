@@ -14,4 +14,3 @@ def install(filepath):
                 os.system(f"conda install -y {package}")
             except:
                 print(f"Failed to install {package}, try with pip.")
-                
