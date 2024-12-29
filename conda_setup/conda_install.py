@@ -1,6 +1,6 @@
 import os
 import yaml
-from conda_requirements import get_requirements
+from .conda_requirements import get_requirements
 
 def install(filepath):
     
