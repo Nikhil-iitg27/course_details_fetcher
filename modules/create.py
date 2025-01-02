@@ -26,4 +26,3 @@ def create_folder_structure(dir, courses, sem):
         os.makedirs(post_mid_folder, exist_ok=True)
     
     print(f"Folder structure for {sem} created successfully.")
-    time.sleep(0.2)

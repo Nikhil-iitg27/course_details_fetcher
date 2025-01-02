@@ -1,6 +1,7 @@
 import yaml
+import time
 import argparse
-from modules import fetch_courses, create_folder_structure
+from modules import *
 from tqdm import tqdm
 
 def main():
@@ -47,22 +48,20 @@ def main():
 
     # fetch courses
     print(f"Fetching course names for {','.join(semesters)} from {config['VARS']['url']}...")
-    DETAILS = fetch_courses(config['VARS']['url'], config['VARS']['format'], semesters)
+    DETAILS = fetch_courses(config['VARS']['url'], semesters, config['VARS']['format'])
 
     # print course details found if print is specified
     if DETAILS:
         print("Found all valid courses:")
-        for i, details in enumerate(tqdm(DETAILS)):
-            print(f"\nFor Semester - {semesters[i]} : Found {len(details['courses'])} courses.")
+        for i, det in enumerate(tqdm(DETAILS)):
+            time.sleep(0.2)
+            print(f"\n\nFor Semester - {semesters[i]} : Found {len(det['courses'])} courses.")
+            det_str = get_det_str(det, config['VARS']['format'])
             if args.details == "print" or args.details == "both":
-                for i in range(len(details['courses'])):
-                    print(details['course_code'][i] +
-                          " - " + details['courses'][i] +
-                          " - " + ' '.join(details['distribution']))
-                    
+                print(det_str)
             # create folder structure and write details to a file
             if args.create:
-                create_folder_structure(config['PATHS'], args.details=="write", details, semesters[i])
+                create_folder_structure(config['PATHS'], args.details, det_str, det, semesters[i])
 
     else:
         print("No content found. Unable to create folder structure.")

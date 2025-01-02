@@ -44,11 +44,12 @@ def helper(rows, sem, format):
             
             # Get the distribution details
             about = dict()
-            for i in range (1,4):
-                about[format[i-1]] = int(columns[index+i].get_text(strip=True))
+            for i in range(4):
+                about[format[i]] = columns[index+i+1].get_text(strip=True).replace('\xa0', ' ')
             
             # Get the course code and update details
-            details['course_codes'].append(columns[index-1].get_text(strip=True))
+            code = columns[index-1].get_text(strip=True).replace('\xa0', ' ')
+            details['course_codes'].append(code)
             details['distribution'].append(about)
     
     return details
