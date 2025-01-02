@@ -45,7 +45,7 @@ def main():
 
     # fetch courses
     print(f"Fetching course names for {','.join(semesters)} from {config['VARS']['url']}...")
-    COURSES = fetch_courses(config['VARS']['url'], semesters)
+    COURSES, DISTRIBUTION = fetch_courses(config['VARS']['url'], config['VARS']['format'], semesters)
 
     # print courses found
     if COURSES:

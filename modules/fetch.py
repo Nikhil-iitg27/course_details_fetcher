@@ -2,7 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-def helper(rows, sem):
+def helper(rows, sem, format):
     
     """
     Helper function to fetch course names for the given semester.
@@ -11,7 +11,7 @@ def helper(rows, sem):
         list: course names for the given semester.
     """
     
-    courses = []
+    details = {"course_name": [], "course_code": [], "distribution": []}
     found = False
     semester = "Semester-" + sem
     
@@ -30,6 +30,7 @@ def helper(rows, sem):
         else:
             # get course names and remove non-breaking space
             text = columns[index].get_text(strip=True).replace('\xa0', ' ')
+            text = text.replace('Laboratory', 'Lab')
             # remove newlines, carriage returns and extra spaces
             text = text.replace('\n', ' ').replace('\r', ' ').strip()
             text = re.sub(r'\s+', ' ', text.strip())
@@ -39,12 +40,20 @@ def helper(rows, sem):
             # Observing the HTML stucture 
             if not text: break
             if text == "Course Name": continue
-            text = text.replace('Laboratory', 'Lab')
-            courses.append(text)
+            details['course_name'].append(text)
+            
+            # Get the distribution details
+            about = dict()
+            for i in range (1,4):
+                about[format[i-1]] = int(columns[index+i].get_text(strip=True))
+            
+            # Get the course code and update details
+            details['course_code'].append(columns[index-1].get_text(strip=True))
+            details['distribution'].append(about)
     
-    return courses
+    return details
  
-def fetch_courses(URL, semesters):
+def fetch_courses(URL, semesters, format):
     """
     Fetch course names for the given semesters from the given URL.
 
@@ -66,11 +75,13 @@ def fetch_courses(URL, semesters):
     rows = table.find_all('tr')
     
     # Deal with the default case
-    COURSES = []
+    DETAILS = []
     if semesters == "all":
-        COURSES = fetch_courses(URL, ' '.join(semesters))
+        details = fetch_courses(URL, ' '.join(semesters), format)
     
     for _, sem in enumerate(semesters):
-        COURSES.append(helper(rows, sem))
+        details = helper(rows, sem, format)
+        DETAILS.append(details)
     
-    return COURSES
+    
+    return DETAILS
