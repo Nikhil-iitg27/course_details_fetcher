@@ -1,6 +1,6 @@
 import yaml
 import argparse
-from modules import *
+from modules import fetch_courses, create_folder_structure
 from tqdm import tqdm
 
 def main():
@@ -49,7 +49,7 @@ def main():
 
     # print courses found
     if COURSES:
-        print(f"Found all valid courses:")
+        print("Found all valid courses:")
         for i, courses in enumerate(tqdm(COURSES)):
             print(f"\nFor Semester - {semesters[i]} : Found {len(courses)} courses.")
             
