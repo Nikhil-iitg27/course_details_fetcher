@@ -12,6 +12,8 @@ def main():
     parser = argparse.ArgumentParser(description="Create a semester folder structure.")
     parser.add_argument("--sem", default="all", help="Semester numbers (E.G. 1, 2, etc.)")
     parser.add_argument("--branch", default="MC", help="Branch to fetch course details from (E.G. CSE, MC, etc.)")
+    parser.add_argument("--create", action="store_true", help = "To create the folder structure or not")
+    parser.add_argument("--details", default="print", help="To print the details of the courses or to write them to a file or both")
 
     # parse arguments
     args = parser.parse_args()
@@ -45,16 +47,22 @@ def main():
 
     # fetch courses
     print(f"Fetching course names for {','.join(semesters)} from {config['VARS']['url']}...")
-    COURSES, DISTRIBUTION = fetch_courses(config['VARS']['url'], config['VARS']['format'], semesters)
+    DETAILS = fetch_courses(config['VARS']['url'], config['VARS']['format'], semesters)
 
-    # print courses found
-    if COURSES:
+    # print course details found if print is specified
+    if DETAILS:
         print("Found all valid courses:")
-        for i, courses in enumerate(tqdm(COURSES)):
-            print(f"\nFor Semester - {semesters[i]} : Found {len(courses)} courses.")
-            
-            # create folder structure
-            create_folder_structure(config['PATHS'], courses, semesters[i])
+        for i, details in enumerate(tqdm(DETAILS)):
+            print(f"\nFor Semester - {semesters[i]} : Found {len(details['courses'])} courses.")
+            if args.details == "print" or args.details == "both":
+                for i in range(len(details['courses'])):
+                    print(details['course_code'][i] +
+                          " - " + details['courses'][i] +
+                          " - " + ' '.join(details['distribution']))
+                    
+            # create folder structure and write details to a file
+            if args.create:
+                create_folder_structure(config['PATHS'], args.details=="write", details, semesters[i])
 
     else:
         print("No content found. Unable to create folder structure.")

@@ -11,7 +11,7 @@ def helper(rows, sem, format):
         dict: Course details for a given semester.
     """
     
-    details = {"course_name": [], "course_code": [], "distribution": []}
+    details = {"courses": [], "course_codes": [], "distribution": []}
     found = False
     semester = "Semester-" + sem
     
@@ -40,7 +40,7 @@ def helper(rows, sem, format):
             # Observing the HTML stucture 
             if not text: break
             if text == "Course Name": continue
-            details['course_name'].append(text)
+            details['courses'].append(text)
             
             # Get the distribution details
             about = dict()
@@ -48,7 +48,7 @@ def helper(rows, sem, format):
                 about[format[i-1]] = int(columns[index+i].get_text(strip=True))
             
             # Get the course code and update details
-            details['course_code'].append(columns[index-1].get_text(strip=True))
+            details['course_codes'].append(columns[index-1].get_text(strip=True))
             details['distribution'].append(about)
     
     return details
