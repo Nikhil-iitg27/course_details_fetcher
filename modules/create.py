@@ -27,4 +27,3 @@ def create_folder_structure(dir, courses, sem):
     
     print(f"Folder structure for {sem} created successfully.")
     time.sleep(0.2)
-
