@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 def helper(rows, sem, format):
     
     """
-    Helper function to fetch course names for the given semester.
+    Helper function to fetch Course details for a given semester.
 
     Returns:
-        list: course names for the given semester.
+        dict: Course details for a given semester.
     """
     
     details = {"course_name": [], "course_code": [], "distribution": []}
@@ -55,14 +55,15 @@ def helper(rows, sem, format):
  
 def fetch_courses(URL, semesters, format):
     """
-    Fetch course names for the given semesters from the given URL.
+    Fetch course details for the given semesters from the given URL.
 
     Args:
         URL (str): URL to fetch course names from.
-        semesters (list): list of semesters to fetch course names for.
-
+        semesters (list): list of semesters to fetch course details for.
+        format (list): format of the distribution details.
+        
     Returns:
-        list(list): list of list of course names for the given semesters.
+       list(list): Course details including course name, course code and distribution details.
     """
     
     # Get the HTML content and create soup object
