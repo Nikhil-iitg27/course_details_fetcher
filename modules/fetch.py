@@ -13,6 +13,7 @@ def helper(rows, sem, format):
     
     details = {"courses": [], "course_codes": [], "distribution": []}
     found = False
+    index = -1  # Initialize index with a default value
     semester = "Semester-" + sem
     
     # Iterate over rows and columns to find the semester
@@ -24,10 +25,15 @@ def helper(rows, sem, format):
             for col_index, column in enumerate(columns):
                 text = ' '.join(column.get_text(strip=True).split())
                 if semester in text:
-                    index = (col_index)
+                    index = col_index
                     found = True
                     break
+            if not found:  # If semester not found in this row, continue to next row
+                continue
         else:
+            if index == -1:  # If semester was not found
+                continue
+                
             # get course names and remove non-breaking space
             text = columns[index].get_text(strip=True).replace('\xa0', ' ')
             text = text.replace('Laboratory', 'Lab')
@@ -76,12 +82,9 @@ def fetch_courses(URL, semesters, format):
     table = soup.find_all('table')[0]
     rows = table.find_all('tr')
     
-    # Deal with the default case
+    # Fetch details for each semester
     DETAILS = []
-    if semesters == "all":
-        details = fetch_courses(URL, ' '.join(semesters), format)
-    
-    for _, sem in enumerate(semesters):
+    for sem in semesters:
         details = helper(rows, sem, format)
         DETAILS.append(details)
     

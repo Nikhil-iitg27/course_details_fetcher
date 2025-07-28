@@ -18,7 +18,6 @@ def create_folder_structure(dir, courses, sem):
     for course in courses:
         course_folder = os.path.join(sem_folder, course)
         os.makedirs(course_folder, exist_ok=True)
-        os.makedirs(course_folder, exist_ok=True)
         # Create Pre-Mid and Post-Mid folders
         pre_mid_folder = os.path.join(course_folder, "Pre-Mid")
         post_mid_folder = os.path.join(course_folder, "Post-Mid")

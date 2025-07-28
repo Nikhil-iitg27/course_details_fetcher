@@ -61,7 +61,7 @@ def main():
                 print(det_str)
             # create folder structure and write details to a file
             if args.create:
-                create_folder_structure(config['PATHS'], args.details, det_str, det, semesters[i])
+                create_folder_structure(config['PATHS'], det['courses'], semesters[i])
 
     else:
         print("No content found. Unable to create folder structure.")
